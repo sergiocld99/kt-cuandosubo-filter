@@ -1,5 +1,7 @@
 fun main() {
     val cs = CuandoSubo()
 
-    cs.run()
+    println(cs.getAddress())
+    println(cs.getLine())
+    println(cs.getArrivals())
 }

@@ -14,10 +14,11 @@ class ArrivalsRow(val line: String, val destination: String, val status: String)
             val s = e.selectFirst(".arrivalsStatusEntry")?.text()
             // val at = element.selectFirst(".arrivalsTimeEntry")?.text()
 
-            if (l != null && d != null){
+            if (!l.isNullOrEmpty() && !d.isNullOrEmpty() && !s.isNullOrEmpty()){
                 val nl = l.replace(Regex("[A-Z]"), "")
                 val nd = if (d.startsWith("a ")) d.substring(2) else d
-                return ArrivalsRow(nl, nd, s ?: "")
+                val ns = if (s == "NOW") "0" else s
+                return ArrivalsRow(nl, nd, ns)
             }
 
             return null
@@ -25,10 +26,8 @@ class ArrivalsRow(val line: String, val destination: String, val status: String)
     }
 
     init {
-        if (status.isNotEmpty()){
-            val minutes = status.toInt()
-            arrivalTime.add(Calendar.MINUTE, minutes)
-        }
+        val minutes = status.toInt()
+        arrivalTime.add(Calendar.MINUTE, minutes)
     }
 
     fun getArrivalTimeStr() : String {
